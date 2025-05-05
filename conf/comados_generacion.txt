@@ -1,0 +1,2 @@
+java -jar ./jar/jflex-1.6.1.jar --skel conf/skeleton.flex -d ./src/unam/fes/aragon/compilador ./conf/conf_Lexico.jflex
+java -jar ./jar/java-cup-11b.jar -parser AnalisisSintactico_LRs -symbols Simbolos -destdir ./src/unam/fes/aragon/compilador ./conf/conf_Sintactico.cup

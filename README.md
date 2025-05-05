@@ -1,33 +1,182 @@
- Lista de Tareas para completar el proyecto:
-Fase inicial:
+Orden directa:
 
-Definir la gramática base en Cup.
+````md
+# ✅ Lista de Tareas para completar el proyecto (versión mejorada)
 
-Aumentar la gramática (añadir producción inicial con EOF) en Cup.
+## 🔹 Fase Inicial
 
-Definir los tokens en JFlex.
+### 1. ✅ Definición de la gramática
 
-Definir la tabla de símbolos.
+Se creó el objeto `GramaticaParser`, capaz de analizar una gramática libre de contexto desde un archivo de texto y transformarla en:
 
-Calcular los conjuntos Primero y Siguiente de la gramática aumentada.
+```java
+Map<String, List<String[]>>
+````
 
-Fase intermedia:
+#### Ventajas:
 
-Construir los conjuntos de elementos LR(0) o LR(1) (dependiendo del tipo de tabla que usarás: SLR, LALR, LR).
+* Eficiente lectura con `BufferedReader`.
+* División por `->` y alternativas por `|`.
+* Producciones convertidas en arrays de `String` para acceso rápido.
 
-Desarrollar el algoritmo que construya la tabla LRs usando los conjuntos anteriores.
+**Ejemplo:**
 
-Usar estructuras como:
+```txt
+S -> A B | a
+A -> a | ε
+B -> b C
+C -> c
+```
 
-Conjuntos (Set) para almacenar los elementos de los items LR.
+Resultado:
 
-Mapas (HashMap) para transiciones.
+```json
+{
+  "S": [["A","B"], ["a"]],
+  "A": [["a"], ["ε"]],
+  "B": [["b","C"]],
+  "C": [["c"]]
+}
+```
 
-Listas para almacenar los estados.
+**Ventajas de esta estructura:**
 
-Pilas o colas para el análisis sintáctico si lo aplicarás luego con esa tabla.
+* Construcción de árboles sintácticos jerárquicos.
+* Ejecución de derivaciones (acceso directo a producciones).
+* Base para generar ítems LR y construir la tabla LR.
+* Acceso rápido O(1), separación clara entre terminales y no terminales.
+* Bajo overhead y fácil conversión a otras estructuras.
 
-Fase final:
+---
 
-Aplicar la tabla LRs en el análisis sintáctico.
+### 2. ✅ Creación del árbol sintáctico *(en evaluación de retiro)*
 
+---
+
+### 3. ✅ Selección del tipo de analizador
+
+Se eligió el analizador ascendente **LR**, dado que el proyecto se titula *LRS*.
+
+---
+
+### 4. ✅ Método de pánico (`TError`)
+
+---
+
+### 5. ⛔ Análisis sintáctico de descenso recursivo descartado
+
+---
+
+### 6. ✅ Gramática aumentada
+
+Agregado: producción inicial `S' → S` con EOF para aceptación explícita.
+
+---
+
+### 7. ✅ Definición de tokens en JFlex
+
+---
+
+### 8. 🔲 Definir tabla de símbolos
+
+---
+
+### 9. 🔲 Calcular conjuntos Primero y Siguiente
+
+---
+
+## 🔹 Fase Intermedia
+
+### 10. 🔲 Generador de ítems LR(0)
+
+Clase: `ItemLR`
+
+* Representa producciones en forma: `A → α·β`.
+
+---
+
+### 11. 🔲 Cerradura (closure)
+
+Clase: `ConstructorAutomataLR`
+
+* Calcula las derivaciones inmediatas (expansión de no terminales tras el punto).
+
+---
+
+### 12. 🔲 Ir\_A (goto)
+
+* Función que, dado un conjunto de ítems y un símbolo, retorna el conjunto resultante al mover el punto.
+
+---
+
+### 13. 🔲 Construcción del autómata LR(0)
+
+Clase: `EstadoLR`
+
+* Conjuntos de ítems LR
+* Transiciones generadas por `goto`
+
+---
+
+### 14. 🔲 Construcción de la tabla LR (ACTION y GOTO)
+
+Clase: `TablaAnalisisLR`
+
+* Tabla ACTION: shift/reduce/accept
+* Tabla GOTO: transiciones entre estados
+
+Estructuras sugeridas:
+
+```java
+Map<Pair<Integer, String>, String> actionTable;
+Map<Pair<Integer, String>, Integer> gotoTable;
+```
+
+---
+
+## 🔹 Fase Final
+
+### 15. 🔲 Algoritmo de análisis LR(0)
+
+Clase: `AnalizadorLR`
+
+* Pila de estados
+* Manejo de entrada
+* Consulta de la tabla y aplicación de acciones
+
+---
+
+### 16. 🔲 Manejador de errores
+
+Clase: `ManejadorErrores`
+
+* Rechazo al encontrar acción inválida
+* Mensajes de error sintáctico
+
+---
+
+### 17. 🔲 (Opcional) Árbol sintáctico LR
+
+* Construcción del árbol durante el análisis usando las reducciones
+* Nodo raíz = producción inicial aumentada `S' → S`
+
+---
+
+## 🔸 Organización de clases sugerida
+
+| Clase Java                   | Función principal                        |
+| ---------------------------- | ---------------------------------------- |
+| `GramaticaParser`            | Lectura y estructuración de reglas       |
+| `ItemLR`                     | Representación de ítems LR               |
+| `EstadoLR`                   | Agrupación de ítems en estados           |
+| `ConstructorAutomataLR`      | Construcción de autómata LR              |
+| `TablaAnalisisLR`            | Generación de ACTION y GOTO              |
+| `AnalizadorLR`               | Ejecución del análisis sintáctico        |
+| `PrimeroSiguienteCalculator` | Cálculo de First y Follow                |
+| `Lexer` (JFlex)              | Análisis léxico                          |
+| `ManejadorErrores`           | Gestión y reporte de errores sintácticos |
+
+---
+
+```
+```

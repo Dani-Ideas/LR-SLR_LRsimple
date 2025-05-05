@@ -8,15 +8,23 @@ package unam.fes.aragon.compilador;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int EOF = 0;
-  public static final int error = 1;
-  public static final int MAS = 2;
+  public static final int MENORIGUAL = 12;
   public static final int MENOS = 3;
+  public static final int MENOR = 11;
   public static final int POR = 4;
   public static final int ENTRE = 5;
-  public static final int LPAREN = 6;
+  public static final int EOF = 0;
+  public static final int MAYORIGUAL = 10;
+  public static final int MAS = 2;
+  public static final int NUMERO = 15;
+  public static final int ASIG = 13;
+  public static final int ID = 16;
+  public static final int MAYOR = 9;
+  public static final int error = 1;
+  public static final int PRINT = 14;
   public static final int RPAREN = 7;
-  public static final int NUMERO = 8;
+  public static final int PUNTOYCOMA = 8;
+  public static final int LPAREN = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -26,7 +34,15 @@ public class Simbolos {
   "ENTRE",
   "LPAREN",
   "RPAREN",
-  "NUMERO"
+  "PUNTOYCOMA",
+  "MAYOR",
+  "MAYORIGUAL",
+  "MENOR",
+  "MENORIGUAL",
+  "ASIG",
+  "PRINT",
+  "NUMERO",
+  "ID"
   };
 }
 
