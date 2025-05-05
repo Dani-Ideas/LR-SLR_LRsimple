@@ -1,0 +1,44 @@
+package aragon.compilador;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+parser code {:
+    public String resultado = "";
+    public static LinkedList<TError> TablaES = new LinkedList<TError>();
+
+    public void syntax_error(Symbol s) {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
+        TablaES.add(datos);
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
+        TablaES.add(datos);
+    }
+:}
+
+terminal MAS, MENOS, POR, ENTRE, LPAREN, RPAREN;
+terminal String NUMERO;
+
+non terminal String INICIO, E, T, F;
+
+precedence left MAS, MENOS;
+precedence left POR, ENTRE;
+
+E ::= E:a MAS T:b {: RESULT = String.valueOf(Integer.parseInt(a) + Integer.parseInt(b)); :}
+   | E:a MENOS T:b {: RESULT = String.valueOf(Integer.parseInt(a) - Integer.parseInt(b)); :}
+   | T:a {: RESULT = a; :};
+
+T ::= T:a POR F:b {: RESULT = String.valueOf(Integer.parseInt(a) * Integer.parseInt(b)); :}
+   | T:a ENTRE F:b {: RESULT = String.valueOf(Integer.parseInt(a) / Integer.parseInt(b)); :}
+   | F:a {: RESULT = a; :};
+
+F ::= LPAREN E:a RPAREN {: RESULT = a; :}
+   | NUMERO:a {: RESULT = a; :};
