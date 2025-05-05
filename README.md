@@ -76,7 +76,7 @@ Estructura resultante:
 
 ### 8. 🔲 Definición de la Tabla de Símbolos
 
-* Pendiente de implementación.
+* Errores con la implementación.
 
 ### 9. 🔲 Cálculo de los Conjuntos Primero y Siguiente
 
