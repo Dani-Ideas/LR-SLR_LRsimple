@@ -1,166 +1,142 @@
-Orden directa:
+# ✅ Lista de Tareas para Completar el Proyecto
 
-````md
-# ✅ Lista de Tareas para completar el proyecto (versión mejorada)
+## 🧩 Fase Inicial
 
-## 🔹 Fase Inicial
+### 1. ✅ Definir la Gramática
 
-### 1. ✅ Definición de la gramática
+Se creó el objeto `GramaticaParser`, capaz de analizar una gramática libre de contexto desde un archivo de texto y transformarla en una estructura de datos eficiente:
 
-Se creó el objeto `GramaticaParser`, capaz de analizar una gramática libre de contexto desde un archivo de texto y transformarla en:
-
-```java
+```
 Map<String, List<String[]>>
-````
+```
 
 #### Ventajas:
 
-* Eficiente lectura con `BufferedReader`.
-* División por `->` y alternativas por `|`.
-* Producciones convertidas en arrays de `String` para acceso rápido.
+* **Lectura eficiente**: Utiliza `BufferedReader` para leer el archivo línea por línea.
+* **Procesamiento estructurado**:
 
-**Ejemplo:**
+    * Divide cada línea en cabeza y cuerpo usando `->`.
+    * Separa las alternativas del cuerpo utilizando `|`.
+    * Cada alternativa se divide en símbolos individuales usando `split("\\s+")`.
+* **Almacenamiento eficiente**: Cada producción se guarda como un arreglo de `String` para acceso rápido por índice.
 
-```txt
+#### Ejemplo:
+
+Archivo de entrada (`gramatica.txt`):
+
+```
 S -> A B | a
 A -> a | ε
 B -> b C
 C -> c
 ```
 
-Resultado:
+Estructura resultante:
 
-```json
+```
 {
-  "S": [["A","B"], ["a"]],
+  "S": [["A", "B"], ["a"]],
   "A": [["a"], ["ε"]],
-  "B": [["b","C"]],
+  "B": [["b", "C"]],
   "C": [["c"]]
 }
 ```
 
-**Ventajas de esta estructura:**
+#### Beneficios de esta estructura:
 
-* Construcción de árboles sintácticos jerárquicos.
-* Ejecución de derivaciones (acceso directo a producciones).
-* Base para generar ítems LR y construir la tabla LR.
-* Acceso rápido O(1), separación clara entre terminales y no terminales.
-* Bajo overhead y fácil conversión a otras estructuras.
+* **Construcción de árboles sintácticos**: Facilita la representación jerárquica de las producciones.
+* **Derivaciones eficientes**: Permite acceder rápidamente a las producciones de cualquier no terminal.
+* **Base para análisis LR**: Proporciona la información necesaria para generar ítems LR y construir la tabla de análisis.
+* **Manejo de producciones ε**: Representa producciones vacías como arreglos vacíos o con el símbolo `"ε"` según la convención adoptada.
 
----
+### 2. ✅ Creación del Árbol Sintáctico
 
-### 2. ✅ Creación del árbol sintáctico *(en evaluación de retiro)*
+* Se implementó la construcción del árbol sintáctico utilizando la estructura generada por `GramaticaParser`.
+* Actualmente en evaluación para determinar su inclusión final en el proyecto.
 
----
+### 3. ✅ Selección del Tipo de Analizador
 
-### 3. ✅ Selección del tipo de analizador
+* Se optó por implementar un analizador **ascendente (LR)**, alineado con el objetivo del proyecto y su denominación "LRS".
 
-Se eligió el analizador ascendente **LR**, dado que el proyecto se titula *LRS*.
+### 4. ✅ Inclusión del Método de Pánico: `TError`
 
----
+* Se incorporó un mecanismo de recuperación ante errores sintácticos mediante el método `TError`.
 
-### 4. ✅ Método de pánico (`TError`)
+### 5. ❌ Inclusión del Análisis Sintáctico de Descenso Recursivo
 
----
+* Se descartó la implementación de un analizador de descenso recursivo, dado que el enfoque principal es el análisis ascendente.
 
-### 5. ⛔ Análisis sintáctico de descenso recursivo descartado
+### 6. ✅ Gramática Aumentada
 
----
+* Se añadió una nueva producción inicial con EOF: `S' → E'`, donde `S` es el símbolo inicial original.
 
-### 6. ✅ Gramática aumentada
+### 7. ✅ Definición de Tokens en JFlex
 
-Agregado: producción inicial `S' → S` con EOF para aceptación explícita.
+* Se definieron los tokens necesarios utilizando JFlex para el análisis léxico del lenguaje.
 
----
+### 8. 🔲 Definición de la Tabla de Símbolos
 
-### 7. ✅ Definición de tokens en JFlex
+* Pendiente de implementación.
 
----
+### 9. 🔲 Cálculo de los Conjuntos Primero y Siguiente
 
-### 8. 🔲 Definir tabla de símbolos
+* Se requiere calcular los conjuntos **Primero** y **Siguiente** de la gramática aumentada para la construcción de la tabla de análisis.
 
----
+## ⚙️ Fase Intermedia
 
-### 9. 🔲 Calcular conjuntos Primero y Siguiente
+### 10. 🔲 Generador de Ítems LR(0)
 
----
+* Para cada producción, representar las formas con el punto (`·`) en diferentes posiciones, por ejemplo: `A → ·α`, `A → α·`.
 
-## 🔹 Fase Intermedia
+### 11. 🔲 Cálculo de la Cerradura (Closure)
 
-### 10. 🔲 Generador de ítems LR(0)
+* Implementar el algoritmo que, dado un conjunto de ítems, agrega todos los derivados posibles con el punto al inicio.
 
-Clase: `ItemLR`
+### 12. 🔲 Función Ir\_A (Goto)
 
-* Representa producciones en forma: `A → α·β`.
+* Definir la función que indica el nuevo conjunto de ítems al mover el punto sobre un símbolo específico.
 
----
+### 13. 🔲 Construcción del Autómata LR(0)
 
-### 11. 🔲 Cerradura (closure)
+* Construir el autómata donde:
 
-Clase: `ConstructorAutomataLR`
+    * **Estados**: Conjuntos de ítems.
+    * **Transiciones**: Definidas por la función Ir\_A para cada símbolo.
 
-* Calcula las derivaciones inmediatas (expansión de no terminales tras el punto).
+### 14. 🔲 Construcción de la Tabla de Análisis (ACTION y GOTO)
 
----
+* Desarrollar la tabla con las acciones `shift`, `reduce`, `accept` según el autómata y las reglas de la gramática.
 
-### 12. 🔲 Ir\_A (goto)
+### 15. 🔲 Desarrollo del Algoritmo para Construir la Tabla LR
 
-* Función que, dado un conjunto de ítems y un símbolo, retorna el conjunto resultante al mover el punto.
+* Utilizar las estructuras generadas anteriormente para construir la tabla LR:
 
----
+    * **Conjuntos (Set)**: Para almacenar los elementos de los ítems LR.
+    * **Mapas (HashMap)**: Para las transiciones.
+    * **Listas**: Para almacenar los estados.
+    * **Pilas o Colas**: Para el análisis sintáctico posterior utilizando la tabla.
 
-### 13. 🔲 Construcción del autómata LR(0)
+## 🧪 Fase Final
 
-Clase: `EstadoLR`
+### 16. 🔲 Implementación del Algoritmo de Análisis LR(0)
 
-* Conjuntos de ítems LR
-* Transiciones generadas por `goto`
+* Desarrollar el algoritmo que utiliza la tabla LR para analizar cadenas de entrada:
 
----
+    * **Pila de estados**: Para mantener el seguimiento de los estados durante el análisis.
+    * **Manejo de entrada**: Procesar los tokens de entrada.
+    * **Uso de la tabla**: Determinar las acciones a realizar (`shift`, `reduce`, `accept`).
 
-### 14. 🔲 Construcción de la tabla LR (ACTION y GOTO)
+### 17. 🔲 Manejador de Errores (Básico)
 
-Clase: `TablaAnalisisLR`
+* Implementar un mecanismo básico de manejo de errores que rechace la entrada si no hay una acción válida en la tabla.
 
-* Tabla ACTION: shift/reduce/accept
-* Tabla GOTO: transiciones entre estados
+### 18. 🔲 (Opcional) Construcción del Árbol Sintáctico LR
 
-Estructuras sugeridas:
-
-```java
-Map<Pair<Integer, String>, String> actionTable;
-Map<Pair<Integer, String>, Integer> gotoTable;
-```
-
----
-
-## 🔹 Fase Final
-
-### 15. 🔲 Algoritmo de análisis LR(0)
-
-Clase: `AnalizadorLR`
-
-* Pila de estados
-* Manejo de entrada
-* Consulta de la tabla y aplicación de acciones
+* Aplicar la tabla LR en el análisis sintáctico para construir el árbol correspondiente.
 
 ---
 
-### 16. 🔲 Manejador de errores
-
-Clase: `ManejadorErrores`
-
-* Rechazo al encontrar acción inválida
-* Mensajes de error sintáctico
-
----
-
-### 17. 🔲 (Opcional) Árbol sintáctico LR
-
-* Construcción del árbol durante el análisis usando las reducciones
-* Nodo raíz = producción inicial aumentada `S' → S`
-
----
+## 📌 Notas Adicionales
 
 ## 🔸 Organización de clases sugerida
 
@@ -176,7 +152,18 @@ Clase: `ManejadorErrores`
 | `Lexer` (JFlex)              | Análisis léxico                          |
 | `ManejadorErrores`           | Gestión y reporte de errores sintácticos |
 
+
+* **Estructuras de Datos Utilizadas**:
+
+    * `HashMap<String, List<String[]>>`: Para almacenar las producciones de la gramática.
+    * `Set`: Para los conjuntos de ítems LR.
+    * `List`: Para los estados del autómata.
+    * `Stack` o `Queue`: Para el análisis sintáctico utilizando la tabla LR.
+
+* **Convenciones Adoptadas**:
+
+    * El símbolo `"ε"` representa producciones vacías.
+    * Se utiliza `String[]` en lugar de `List<String>` para las producciones por eficiencia en el acceso por índice y menor overhead de memoria.
+
 ---
 
-```
-```
