@@ -59,7 +59,7 @@ INT = [0-9]+
     if((s = tabla.buscar(yytext())) == null){
         s = tabla.insertar(yytext());
     }
-    return new Symbol(Simbolos.ID, yycolumn, yyline, s);
+    return new Symbol(Simbolos.ID, yycolumn, yyline, new String(s.getNombre()));
 }
 
 <YYINITIAL> {INT} {

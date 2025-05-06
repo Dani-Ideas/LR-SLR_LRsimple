@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import java_cup.runtime.XMLElement;
 import unam.fes.aragon.codigo.TError;
+import unam.fes.aragon.codigo.Datos;
 import java.util.*;
 import static Conjuntos.*;
 
@@ -11,6 +12,30 @@ action code
 {:
     public void imprimirValor(String str){
         System.out.println("Valor del Token es: "+ str);
+    }
+
+    public String accion(int estado, String simbolo) {
+            if (tablaAccion[estado][simbolo] == "desplazar") {
+                return "desplazar";
+            } else if (tablaAccion[estado][simbolo] == "reducir") {
+                return "reducir";
+            } else if (tablaAccion[estado][simbolo] == "aceptar") {
+                return "aceptar";
+            } else {
+                return "error";
+            }
+    }
+
+    public List<ElementoLR0> irA(List<ElementoLR0> conjunto, String simbolo) {
+        List<ElementoLR0> nuevoConjunto = new ArrayList<>();
+        for (ElementoLR0 elemento : conjunto) {
+            if (elemento.ladoDerecho.charAt(elemento.punto) == simbolo.charAt(0)) {
+                nuevoConjunto.add(new ElementoLR0(elemento.ladoIzquierdo,
+                        elemento.ladoDerecho,
+                        elemento.punto + 1));
+            }
+        }
+        return nuevoConjunto;
     }
 :}
 
@@ -57,7 +82,9 @@ non terminal String INICIO, E, T, F;
 precedence left MAS, MENOS;
 precedence left POR, ENTRE;
 
-INICIO ::= E:e PUNTOYCOMA {: System.out.println("Resultado: " + e); :};
+INICIO ::= ID:a ASIG E:b PUNTOYCOMA
+    {: ((Datos)a).setValor(Integer.parseInt(b)); :}
+    | E:b PUNTOYCOMA {: System.out.println("Resultado: " + b); :};
 
 E ::= E:a MAS T:b {: RESULT = String.valueOf(Integer.parseInt(a) + Integer.parseInt(b)); :}
    | E:a MENOS T:b {: RESULT = String.valueOf(Integer.parseInt(a) - Integer.parseInt(b)); :}
@@ -69,6 +96,7 @@ T ::= T:a POR F:b {: RESULT = String.valueOf(Integer.parseInt(a) * Integer.parse
 
 F ::= LPAREN E:a RPAREN {: RESULT = a; :}
    | NUMERO:a {: RESULT = a; :}
-   | ID:a {: RESULT = a.toString(); :};
+   | F ::= ID:a {: RESULT = a.toString(); :};
+
 
 start with INICIO;
