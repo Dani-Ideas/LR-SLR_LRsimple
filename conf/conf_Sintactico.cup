@@ -1,31 +1,54 @@
-package aragon.compilador;
+package unam.fes.aragon.compilador;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import java_cup.runtime.XMLElement;
+import unam.fes.aragon.codigo.TError;
+
+action code
+{:
+    public void imprimirValor(String str){
+        System.out.println("Valor del Token es: "+ str);
+    }
+:}
 
 parser code {:
     public String resultado = "";
     public static LinkedList<TError> TablaES = new LinkedList<TError>();
 
-    public void syntax_error(Symbol s) {
-        String lexema = s.value.toString();
-        int fila = s.right;
-        int columna = s.left;
-        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
-        TablaES.add(datos);
+    public void syntax_error(Symbol s){
+         String lexema = s.value.toString();
+         int fila = s.right;
+         int columna = s.left;
+
+         System.out.println("!Error Sintactico Recuperado!");
+         System.out.println("\t\tLexema: "+lexema);
+         System.out.println("\t\tFila: "+fila);
+         System.out.println("\t\tColumna: "+columna);
+
+         TError datos = new TError(lexema,fila,columna,"Error Sintactico","Caracter no esperado");
+         TablaES.add(datos);
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
         String lexema = s.value.toString();
         int fila = s.right;
         int columna = s.left;
-        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
+
+        System.out.println("!Error Sintactico no2!");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+
+         TError datos = new TError(lexema,fila,columna,"Error Sintactico","Caracter no esperado");
         TablaES.add(datos);
+
     }
 :}
 
-terminal MAS, MENOS, POR, ENTRE, LPAREN, RPAREN;
+terminal MAS, MENOS, POR, ENTRE, LPAREN, RPAREN, PUNTOYCOMA, MAYOR, MAYORIGUAL, MENOR, MENORIGUAL, ASIG, PRINT;
 terminal String NUMERO;
+terminal ID;
 
 non terminal String INICIO, E, T, F;
 

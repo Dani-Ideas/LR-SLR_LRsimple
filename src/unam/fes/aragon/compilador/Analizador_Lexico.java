@@ -684,9 +684,11 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             { System.out.println("Reconocio "+yytext()+" mayor"); return new Symbol(Simbolos.MAYOR, yycolumn, yyline);
             }
           case 28: break;
-          case 12: 
+          /*
+          case 12:
             { System.out.println("Reconocio "+yytext()+" asigna"); return new Symbol(Simbolos.ASIG, yycolumn, yyline);
             }PRINTPRINT
+          * */
           case 29: break;
           case 13: 
             { System.out.println("Reconocio "+yytext()+" menor"); return new Symbol(Simbolos.MENOR, yycolumn, yyline);

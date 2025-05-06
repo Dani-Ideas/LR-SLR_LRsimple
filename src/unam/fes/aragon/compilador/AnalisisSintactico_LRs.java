@@ -9,6 +9,7 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import java_cup.runtime.XMLElement;
 import unam.fes.aragon.codigo.TError;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
@@ -43,18 +44,18 @@ public class AnalisisSintactico_LRs extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\021\000\006\010\010\012\004\001\002\000\016\002" +
+    "\000\021\000\006\010\010\021\004\001\002\000\016\002" +
     "\ufff9\004\ufff9\005\ufff9\006\ufff9\007\ufff9\011\ufff9\001\002" +
     "\000\016\002\ufffe\004\ufffe\005\ufffe\006\017\007\016\011" +
     "\ufffe\001\002\000\016\002\ufffb\004\ufffb\005\ufffb\006\ufffb" +
     "\007\ufffb\011\ufffb\001\002\000\010\002\023\004\012\005" +
-    "\014\001\002\000\006\010\010\012\004\001\002\000\010" +
-    "\004\012\005\014\011\013\001\002\000\006\010\010\012" +
+    "\014\001\002\000\006\010\010\021\004\001\002\000\010" +
+    "\004\012\005\014\011\013\001\002\000\006\010\010\021" +
     "\004\001\002\000\016\002\ufffa\004\ufffa\005\ufffa\006\ufffa" +
-    "\007\ufffa\011\ufffa\001\002\000\006\010\010\012\004\001" +
+    "\007\ufffa\011\ufffa\001\002\000\006\010\010\021\004\001" +
     "\002\000\016\002\uffff\004\uffff\005\uffff\006\017\007\016" +
-    "\011\uffff\001\002\000\006\010\010\012\004\001\002\000" +
-    "\006\010\010\012\004\001\002\000\016\002\ufffd\004\ufffd" +
+    "\011\uffff\001\002\000\006\010\010\021\004\001\002\000" +
+    "\006\010\010\021\004\001\002\000\016\002\ufffd\004\ufffd" +
     "\005\ufffd\006\ufffd\007\ufffd\011\ufffd\001\002\000\016\002" +
     "\ufffc\004\ufffc\005\ufffc\006\ufffc\007\ufffc\011\ufffc\001\002" +
     "\000\016\002\001\004\001\005\001\006\017\007\016\011" +
@@ -115,26 +116,45 @@ public class AnalisisSintactico_LRs extends java_cup.runtime.lr_parser {
     public String resultado = "";
     public static LinkedList<TError> TablaES = new LinkedList<TError>();
 
-    public void syntax_error(Symbol s) {
-        String lexema = s.value.toString();
-        int fila = s.right;
-        int columna = s.left;
-        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
-        TablaES.add(datos);
+    public void syntax_error(Symbol s){
+         String lexema = s.value.toString();
+         int fila = s.right;
+         int columna = s.left;
+
+         System.out.println("!Error Sintactico Recuperado!");
+         System.out.println("\t\tLexema: "+lexema);
+         System.out.println("\t\tFila: "+fila);
+         System.out.println("\t\tColumna: "+columna);
+
+         TError datos = new TError(lexema,fila,columna,"Error Sintactico","Caracter no esperado");
+         TablaES.add(datos);
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
         String lexema = s.value.toString();
         int fila = s.right;
         int columna = s.left;
-        TError datos = new TError(lexema, fila, columna, "Error Sintactico", "Caracter no esperado");
+
+        System.out.println("!Error Sintactico no2!");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+
+         TError datos = new TError(lexema,fila,columna,"Error Sintactico","Caracter no esperado");
         TablaES.add(datos);
+
     }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$AnalisisSintactico_LRs$actions {
+
+
+    public void imprimirValor(String str){
+        System.out.println("Valor del Token es: "+ str);
+    }
+
   private final AnalisisSintactico_LRs parser;
 
   /** Constructor */
