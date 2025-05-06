@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import unam.fes.aragon.codigo.Datos;
 import unam.fes.aragon.codigo.TError;
 import unam.fes.aragon.codigo.TablaSimbolos;
-
+import unam.fes.aragon.compilador.Simbolos;
 %%
 %{
     private TablaSimbolos tabla;

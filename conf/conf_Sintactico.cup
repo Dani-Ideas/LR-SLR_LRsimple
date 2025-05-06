@@ -57,6 +57,8 @@ non terminal String INICIO, E, T, F;
 precedence left MAS, MENOS;
 precedence left POR, ENTRE;
 
+INICIO ::= E:e PUNTOYCOMA {: System.out.println("Resultado: " + e); :};
+
 E ::= E:a MAS T:b {: RESULT = String.valueOf(Integer.parseInt(a) + Integer.parseInt(b)); :}
    | E:a MENOS T:b {: RESULT = String.valueOf(Integer.parseInt(a) - Integer.parseInt(b)); :}
    | T:a {: RESULT = a; :};
@@ -66,4 +68,7 @@ T ::= T:a POR F:b {: RESULT = String.valueOf(Integer.parseInt(a) * Integer.parse
    | F:a {: RESULT = a; :};
 
 F ::= LPAREN E:a RPAREN {: RESULT = a; :}
-   | NUMERO:a {: RESULT = a; :};
+   | NUMERO:a {: RESULT = a; :}
+   | ID:a {: RESULT = a.toString(); :};
+
+start with INICIO;
