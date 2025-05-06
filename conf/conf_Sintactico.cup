@@ -4,6 +4,8 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import java_cup.runtime.XMLElement;
 import unam.fes.aragon.codigo.TError;
+import java.util.*;
+import static Conjuntos.*;
 
 action code
 {:
