@@ -1,5 +1,6 @@
-package unam.fes.aragon.codigo;
+package unam.fes.aragon.codigoLR0.tablas;
 
+import unam.fes.aragon.codigoLR0.elemnetosTablas.Datos;
 import unam.fes.aragon.compilador.Simbolos;
 
 import java.util.HashMap;

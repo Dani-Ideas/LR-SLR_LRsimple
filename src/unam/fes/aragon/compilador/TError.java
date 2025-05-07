@@ -1,4 +1,4 @@
-package unam.fes.aragon.codigo;
+package unam.fes.aragon.compilador;
 
 public class TError {
     String lexema;

@@ -1,4 +1,4 @@
-package unam.fes.aragon.codigo;
+package unam.fes.aragon.codigoLR0.elemnetosTablas;
 
 public class Datos {
     private int lexema;

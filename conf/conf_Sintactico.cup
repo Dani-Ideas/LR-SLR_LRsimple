@@ -3,7 +3,7 @@ package unam.fes.aragon.compilador;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import java_cup.runtime.XMLElement;
-import unam.fes.aragon.codigo.TError;
+import unam.fes.aragon.compilador.TError;
 
 action code
 {:

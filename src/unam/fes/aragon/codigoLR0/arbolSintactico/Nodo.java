@@ -1,4 +1,4 @@
-package unam.fes.aragon.codigo.arbolSintactico;
+package unam.fes.aragon.codigoLR0.arbolSintactico;
 
 import java.util.ArrayList;
 import java.util.List;

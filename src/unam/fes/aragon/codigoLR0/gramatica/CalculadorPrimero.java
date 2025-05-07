@@ -1,4 +1,4 @@
-package unam.fes.aragon.codigo.PrimeroSiguiente;
+package unam.fes.aragon.codigoLR0.gramatica;
 
 import java.util.*;
 

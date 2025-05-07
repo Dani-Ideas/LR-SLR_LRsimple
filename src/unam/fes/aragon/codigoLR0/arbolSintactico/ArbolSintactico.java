@@ -1,6 +1,6 @@
-package unam.fes.aragon.codigo.arbolSintactico;
+package unam.fes.aragon.codigoLR0.arbolSintactico;
 
-import unam.fes.aragon.codigo.GramaticaParser;
+import unam.fes.aragon.codigoLR0.gramatica.GramaticaParser;
 
 import java.util.List;
 import java.util.Map;

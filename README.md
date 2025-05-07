@@ -66,28 +66,28 @@ Estructura resultante:
 
 * Se descartó la implementación de un analizador de descenso recursivo, dado que el enfoque principal es el análisis ascendente.
 
-### 6. ✅ Gramática Aumentada
+### 6. 🔲  Gramática Aumentada
 
-* Se añadió una nueva producción inicial con EOF: `S' → E'`, donde `S` es el símbolo inicial original.
+* aun no se ha añadido el codigo que la genera a partir de la gramatica base que se almacena en la clase GramaticaParser
 
 ### 7. ✅ Definición de Tokens en JFlex
 
 * Se definieron los tokens necesarios utilizando JFlex para el análisis léxico del lenguaje.
 
-### 8. 🔲 Definición de la Tabla de Símbolos
+### 8. 🔲  Definición de la Tabla de Símbolos
 
-* Errores con la implementación.
+* Errores con la implementación y la untegracion con JFlex.
 
-### 9. 🔲 Cálculo de los Conjuntos Primero y Siguiente
+### 9. ✅ Cálculo de los Conjuntos Primero y Siguiente
 
-* Se requiere calcular los conjuntos **Primero** y **Siguiente** de la gramática aumentada para la construcción de la tabla de análisis.
+* Por el momento se definio un gramatica estatica pra practicar así que los conjuntos de primero y siguiente estan definidos en la clase 'ConjuntosPrimSig'.
 
 ## ⚙️ Fase Intermedia
 
 ### 10. 🔲 Generador de Ítems LR(0)
 
 * Para cada producción, representar las formas con el punto (`·`) en diferentes posiciones, por ejemplo: `A → ·α`, `A → α·`.
-
+* se tiene un pequeño boceto con la clase ElementoLR0
 ### 11. 🔲 Cálculo de la Cerradura (Closure)
 
 * Implementar el algoritmo que, dado un conjunto de ítems, agrega todos los derivados posibles con el punto al inicio.
@@ -95,6 +95,7 @@ Estructura resultante:
 ### 12. 🔲 Función Ir\_A (Goto)
 
 * Definir la función que indica el nuevo conjunto de ítems al mover el punto sobre un símbolo específico.
+* se tiene un boceto en la clase Tabla_analisis_sintacticoG
 
 ### 13. 🔲 Construcción del Autómata LR(0)
 
@@ -106,7 +107,17 @@ Estructura resultante:
 ### 14. 🔲 Construcción de la Tabla de Análisis (ACTION y GOTO)
 
 * Desarrollar la tabla con las acciones `shift`, `reduce`, `accept` según el autómata y las reglas de la gramática.
+* se tiene un boceto en Tabla_analisis_sintacticoG
+* Función ACCION
+  Esta función recibe un estado i y un símbolo a (que puede ser un terminal o $ para indicar el final de la entrada).
 
+Desplazamiento (Shift): Si el símbolo a puede avanzar en la producción (se encuentra después del punto), se desplaza al siguiente estado.
+
+Reducción (Reduce): Si el punto está al final de una producción, se reduce aplicando la producción a la pila.
+
+Aceptar: Si la pila contiene el símbolo de aceptación y no hay más tokens, se acepta la entrada.
+
+Error: Si no hay una acción válida, se genera un error.
 ### 15. 🔲 Desarrollo del Algoritmo para Construir la Tabla LR
 
 * Utilizar las estructuras generadas anteriormente para construir la tabla LR:
@@ -115,6 +126,10 @@ Estructura resultante:
     * **Mapas (HashMap)**: Para las transiciones.
     * **Listas**: Para almacenar los estados.
     * **Pilas o Colas**: Para el análisis sintáctico posterior utilizando la tabla.
+* La tabla SLR consta de dos partes:
+
+    * **Función ACCION**: Determina la acción a tomar (desplazar, reducir, aceptar o error) para un estado y un símbolo terminal.
+    * **Función ir_A**: Determina el estado siguiente dado un estado actual y un símbolo no terminal.
 
 ## 🧪 Fase Final
 
