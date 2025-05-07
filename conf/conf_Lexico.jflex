@@ -7,6 +7,13 @@ import unam.fes.aragon.codigoLR0.TablaSimbolos;
 
 %%
 %{
+    private TablaSimbolos tabla;
+
+    public Analizador_Lexico(java.io.Reader in, TablaSimbolos t){
+        this.yyreset(in);
+        this.tabla = t;
+    }
+
     public static LinkedList<TError> TablaEL = new LinkedList<TError>();
 %}
 
@@ -42,7 +49,14 @@ INT = [0-9]+
 <YYINITIAL> "<="        { return new Symbol(Simbolos.MENORIGUAL, yycolumn, yyline); }
 <YYINITIAL> "="         { return new Symbol(Simbolos.ASIG, yycolumn, yyline); }
 <YYINITIAL> "PRINT"     { return new Symbol(Simbolos.PRINT, yycolumn, yyline); }
-<YYINITIAL> {ID}        { return new Symbol(Simbolos.ID, yycolumn, yyline);}
+<YYINITIAL> {ID} {
+    String nombre = yytext();
+    Datos dato = tabla.buscar(nombre);
+    if (dato == null) {
+        dato = tabla.insertar(nombre);
+    }
+    return new Symbol(Simbolos.ID, yycolumn, yyline, dato);
+}
 <YYINITIAL> {INT}       { return new Symbol(Simbolos.NUMERO, yycolumn, yyline, yytext());}
 [ \t\r\n\f] {/* ignorar espacios */}
 
