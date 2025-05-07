@@ -11,7 +11,7 @@ public class ArbolSintactico<E> {
 
     public ArbolSintactico(String archivoGramatica, String simboloInicial) {
         GramaticaParser parser = new GramaticaParser();
-        gramatica = parser.parsear(archivoGramatica);
+        //gramatica = parser.parsear(archivoGramatica);
         this.raiz = construir(simboloInicial);
     }
 

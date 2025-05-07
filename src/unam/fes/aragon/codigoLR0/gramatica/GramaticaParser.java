@@ -4,46 +4,68 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 // los cometarios se dejaron para que sea más facil leer la Documentacion
 public class GramaticaParser {
-    public Map<String, List<String[]>> parsear(String archivo) {
-        // 1. Estructura de datos principal
-        Map<String, List<String[]>> gramatica = new HashMap<>();
+    private final Map<String, List<String[]>> gramatica = new LinkedHashMap<>();
+    private String simboloInicial = "";
+
+    public GramaticaParser() {
+    }
+
+    public GramaticaParser(String archivoGramatica) {
+        cargarGramatica(archivoGramatica);
+    }
+
+    public void cargarGramatica(String archivo) {
+        gramatica.clear();
+        simboloInicial = "";
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
-
-            // 2. Lectura línea por línea
             while ((linea = br.readLine()) != null) {
-
-                // 3. Dividir la regla en cabeza y cuerpo
-                String[] partes = linea.split("->");
-                String noTerminal = partes[0].trim(); // Ej: "S"
-
-                // 4. Dividir las alternativas de producción
-                String[] alternativas = partes[1].split("\\|"); // Ej: ["AB", "a"]
-
-                List<String[]> producciones = new ArrayList<>();
-
-                // 5. Procesar cada alternativa
-                for (String alt : alternativas) {
-                    // 6. Dividir símbolos por espacios
-                    String[] simbolos = alt.trim().split("\\s+");
-                    producciones.add(simbolos); // Ej: ["A","B"] y ["a"]
+                if (linea.contains("->") && simboloInicial.isEmpty()) {
+                    simboloInicial = linea.split("->")[0].trim();
                 }
 
-                // 7. Almacenar en la estructura
+                String[] partes = linea.split("->");
+                String noTerminal = partes[0].trim();
+                String[] alternativas = partes[1].split("\\|");
+
+                List<String[]> producciones = new ArrayList<>();
+                for (String alt : alternativas) {
+                    String[] simbolos = alt.trim().split("\\s+");
+                    producciones.add(simbolos);
+                }
+
                 gramatica.put(noTerminal, producciones);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al leer el archivo de gramática: " + e.getMessage(), e);
         }
+    }
+
+    public Map<String, List<String[]>> getGramatica() {
         return gramatica;
+    }
+
+    public String getSimboloInicial() {
+        return simboloInicial;
+    }
+
+    public Map<String, List<String[]>> construirGramaticaAumentada() {
+        if (simboloInicial.isEmpty() || gramatica.isEmpty()) {
+            throw new IllegalStateException("Primero debe cargarse una gramática con cargarGramatica().");
+        }
+
+        Map<String, List<String[]>> gramaticaAumentada = new LinkedHashMap<>();
+        String nuevoSimboloInicial = "S'";
+        List<String[]> produccionesIniciales = new ArrayList<>();
+        produccionesIniciales.add(new String[]{simboloInicial});
+        gramaticaAumentada.put(nuevoSimboloInicial, produccionesIniciales);
+        gramaticaAumentada.putAll(gramatica);
+
+        return gramaticaAumentada;
     }
 }

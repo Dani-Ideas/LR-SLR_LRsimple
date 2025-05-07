@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tabla_analisis_sintacticoG {
+    /*
     public String accion(int estado, String simbolo) {
         if (tablaAccion[estado][simbolo] == "desplazar") {
             return "desplazar";
@@ -55,5 +56,6 @@ public class Tabla_analisis_sintacticoG {
             }
         }
     }
+    */
 
 }

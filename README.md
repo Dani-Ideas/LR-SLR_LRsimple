@@ -66,7 +66,7 @@ Estructura resultante:
 
 * Se descartó la implementación de un analizador de descenso recursivo, dado que el enfoque principal es el análisis ascendente.
 
-### 6. 🔲  Gramática Aumentada
+### 6. ✅  Gramática Aumentada
 
 * aun no se ha añadido el codigo que la genera a partir de la gramatica base que se almacena en la clase GramaticaParser
 
